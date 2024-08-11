@@ -6,10 +6,29 @@ import {db} from './data/db'
 import { useState } from 'react'
 
 function App() {
+// eslint-disable-next-line no-unused-vars
 const [data,setDaata] = useState(db)
+const [car, setCar] = useState([])
+
+function addCart(items){
+  const itemsExiste = car.findIndex(x=> x.id ===items.id)
+
+  if(itemsExiste >=0){
+
+    const updateCar = [...car];
+    updateCar [itemsExiste].quantity++
+    setCar(updateCar)
+
+  }else{
+    items.quantity = 1//se creo una propiedad al objeto para saber la cantidad
+    setCar( [...car,items])
+  }
+}
   return (
     <>
-    <Header/>  
+    <Header
+    car={car}
+    />  
 
     <main className="container-xl mt-5">
         <h2 className="text-center">Nuestra Colección</h2>
@@ -19,6 +38,7 @@ const [data,setDaata] = useState(db)
             <Guitar
             key={guitar.id}
             guitar = {guitar}
+            addCart = {addCart}
             />
 
           ))}
