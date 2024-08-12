@@ -1,5 +1,18 @@
+import { useMemo } from "react";
+
 /* eslint-disable react/prop-types */
-export default function Header({ car }) {
+export default function Header({ car,removeFromCart }) {
+
+    /**useMemo es un hook que se ua para el performar de una aplicacion, evita que react renderice una pieza de codigo si 
+     * la dependencia aun no ha cambiado. esto evita carga inecesaria
+     */
+    const isEmpy= useMemo( ()=> car.length === 0, [car])
+        
+    
+    function carTotal(){
+       return car.reduce((total,item) => total + (item.quantity * item.price), 0)
+    }
+
   return (
     <>
       <header className="py-5 header">
@@ -21,10 +34,14 @@ export default function Header({ car }) {
                   src="./public/img/carrito.png"
                   alt="imagen carrito"
                 />
-
+              
                 <div id="carrito" className="bg-white p-3">
-                  <p className="text-center">El carrito esta vacio</p>
-                  <table className="w-100 table">
+                {isEmpy ? (
+                    <p className="text-center">El carrito esta vacio</p>
+
+                ):(
+                    <>
+                    <table className="w-100 table">
                     <thead>
                       <tr>
                         <th>Imagen</th>
@@ -56,7 +73,10 @@ export default function Header({ car }) {
                             </button>
                           </td>
                           <td>
-                            <button className="btn btn-danger" type="button">
+                            <button 
+                            onClick={()=> removeFromCart(guitar.id)}
+                            className="btn btn-danger"
+                             type="button">
                               X
                             </button>
                           </td>
@@ -64,10 +84,14 @@ export default function Header({ car }) {
                       ))}
                     </tbody>
                   </table>
-
+                  
                   <p className="text-end">
-                    Total pagar: <span className="fw-bold">$899</span>
+                    Total pagar: <span className="fw-bold">${carTotal()}</span>
                   </p>
+                  </>
+                )
+            }
+
                   <button className="btn btn-dark w-100 mt-3 p-2">
                     Vaciar Carrito
                   </button>

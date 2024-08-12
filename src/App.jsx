@@ -24,10 +24,19 @@ function addCart(items){
     setCar( [...car,items])
   }
 }
+
+function removeFromCart(id){
+  setCar(x=> x.filter(guitar => guitar.id !==id))
+  
+}
+
+
+
   return (
     <>
     <Header
     car={car}
+    removeFromCart={removeFromCart}
     />  
 
     <main className="container-xl mt-5">
