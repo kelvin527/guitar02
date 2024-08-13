@@ -1,17 +1,7 @@
-import { useMemo } from "react";
 
 /* eslint-disable react/prop-types */
-export default function Header({ car,removeFromCart }) {
+export default function Header({ car,removeFromCart,incrementCart,decrementCart,clearCart,isEmpy,carTotal }) {
 
-    /**useMemo es un hook que se ua para el performar de una aplicacion, evita que react renderice una pieza de codigo si 
-     * la dependencia aun no ha cambiado. esto evita carga inecesaria
-     */
-    const isEmpy= useMemo( ()=> car.length === 0, [car])
-        
-    
-    function carTotal(){
-       return car.reduce((total,item) => total + (item.quantity * item.price), 0)
-    }
 
   return (
     <>
@@ -64,11 +54,15 @@ export default function Header({ car,removeFromCart }) {
                           <td>{guitar.name}</td>
                           <td className="fw-bold">${guitar.price}</td>
                           <td className="flex align-items-start gap-4">
-                            <button type="button" className="btn btn-dark">
+                            <button type="button" className="btn btn-dark"
+                            onClick={()=> decrementCart(guitar.id)}
+                            >
                               -
                             </button>
                             {guitar.quantity}
-                            <button type="button" className="btn btn-dark">
+                            <button type="button" className="btn btn-dark"
+                            onClick={()=> incrementCart(guitar.id)}
+                            >
                               +
                             </button>
                           </td>
@@ -92,7 +86,7 @@ export default function Header({ car,removeFromCart }) {
                 )
             }
 
-                  <button className="btn btn-dark w-100 mt-3 p-2">
+                  <button className="btn btn-dark w-100 mt-3 p-2" onClick={clearCart}>
                     Vaciar Carrito
                   </button>
                 </div>

@@ -2,34 +2,11 @@
 import './App.css'
 import Header from './components/Header'
 import Guitar from './components/Guitar'
-import {db} from './data/db'
-import { useState } from 'react'
-
+import { useCart } from './hooks/useCart'
 function App() {
-// eslint-disable-next-line no-unused-vars
-const [data,setDaata] = useState(db)
-const [car, setCar] = useState([])
 
-function addCart(items){
-  const itemsExiste = car.findIndex(x=> x.id ===items.id)
-
-  if(itemsExiste >=0){
-
-    const updateCar = [...car];
-    updateCar [itemsExiste].quantity++
-    setCar(updateCar)
-
-  }else{
-    items.quantity = 1//se creo una propiedad al objeto para saber la cantidad
-    setCar( [...car,items])
-  }
-}
-
-function removeFromCart(id){
-  setCar(x=> x.filter(guitar => guitar.id !==id))
   
-}
-
+const { addCart, clearCart,decrementCart,incrementCart,removeFromCart,car,data,carTotal,isEmpy} = useCart()
 
 
   return (
@@ -37,6 +14,11 @@ function removeFromCart(id){
     <Header
     car={car}
     removeFromCart={removeFromCart}
+    incrementCart={incrementCart}
+    decrementCart={decrementCart}
+    clearCart={clearCart}
+    carTotal={carTotal}
+    isEmpy={isEmpy}
     />  
 
     <main className="container-xl mt-5">
